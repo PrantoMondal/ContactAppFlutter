@@ -14,14 +14,14 @@ class _ContactListPageState extends State<ContactListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Contact List'),
+        title: const Text('Contact List'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           Navigator.pushNamed(context, NewContactPage.routeName);
         },
-        child: Icon(Icons.add),
         tooltip: 'Add New Contact',
+        child: const Icon(Icons.add),
       ),
     );
   }
