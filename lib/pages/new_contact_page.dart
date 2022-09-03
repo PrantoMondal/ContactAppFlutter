@@ -1,3 +1,4 @@
+import 'package:contactapp/model/contact_model.dart';
 import 'package:flutter/material.dart';
 
 class NewContactPage extends StatefulWidget {
@@ -43,7 +44,7 @@ class _NewContactPageState extends State<NewContactPage> {
       body: Form(
         key: form_key,
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           children: [
             TextFormField(
               controller: nameController,
@@ -116,6 +117,16 @@ class _NewContactPageState extends State<NewContactPage> {
   }
 
   void _saveContact() {
-
+    if (form_key.currentState!.validate()) {
+      final contact = ContactModel(
+          name: nameController.text,
+          number: mobileController.text,
+          email: emailController.text,
+          address: addressController.text,
+          company: companyController.text,
+          designation: designationController.text,
+          website: websiteController.text);
+      print(contact.toString());
+    }
   }
 }
