@@ -1,3 +1,6 @@
+import 'package:contactapp/pages/contact_details_page.dart';
+import 'package:contactapp/pages/contact_list_page.dart';
+import 'package:contactapp/pages/new_contact_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,14 +11,21 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: ContactListPage.routeName ,
+      routes:{
+        ContactListPage.routeName : (context) => ContactListPage(),
+        NewContactPage.routeName : (context) => NewContactPage(),
+        ContactDetailsPage.routeName : (context) => ContactListPage(),
+      },
     );
   }
 }
