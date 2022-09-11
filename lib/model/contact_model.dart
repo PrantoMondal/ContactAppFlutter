@@ -4,20 +4,46 @@ class ContactModel {
   String number;
   String? email;
   String? address;
-  String? company;
-  String? designation;
-  String? website;
+  String? dob;
+  String? gender;
+  String? image;
   bool isFavourite;
 
-  ContactModel({
+  ContactModel(
+      {this.id,
+      required this.name,
+      required this.number,
+      this.email,
+      this.address,
+      this.dob,
+      this.gender,
+      this.image,
+      this.isFavourite = false});
+
+  @override
+  String toString() {
+    return 'ContactModel{id: $id,'
+        ' name: $name,'
+        ' number: $number,'
+        ' email: $email,'
+        ' address: $address,'
+        ' dob: $dob,'
+        ' gender: $gender,'
+        ' image: $image,'
+        ' isFavourite: $isFavourite}';
+  }
+/*  String? company;
+  String? designation;
+  String? website;*/
+/*  ContactModel({
     this.id,
     required this.name,
     required this.number,
     this.email,
     this.address,
-    this.company,
-    this.designation,
-    this.website,
+    // this.company,
+    // this.designation,
+    // this.website,
     this.isFavourite = false,
   });
 
@@ -33,5 +59,6 @@ class ContactModel {
         ' website: $website, '
         'isFavourite: $isFavourite'
         '}';
-  }
+  }*/
+
 }

@@ -46,7 +46,10 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
   sqflite: ^2.0.3
-
+  url_launcher:
+  intl:
+  image_picker:
+  path:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
