@@ -14,10 +14,10 @@ class _NewContactPageState extends State<NewContactPage> {
   final mobileController = TextEditingController();
   final emailController = TextEditingController();
   final addressController = TextEditingController();
-  final companyController = TextEditingController();
-  final designationController = TextEditingController();
-  final websiteController = TextEditingController();
-
+  String? _dob;
+  String? _genderGroupValue;
+  String? _imagePath;
+  // ImageSource _imageSource=ImageSource.camera;
   final form_key = GlobalKey<FormState>();
 
   @override
@@ -26,9 +26,7 @@ class _NewContactPageState extends State<NewContactPage> {
     mobileController.dispose();
     emailController.dispose();
     addressController.dispose();
-    companyController.dispose();
-    designationController.dispose();
-    websiteController.dispose();
+
     super.dispose();
   }
 
@@ -61,6 +59,7 @@ class _NewContactPageState extends State<NewContactPage> {
                 }
               },
             ),
+            const SizedBox(height: 10,),
             TextFormField(
               controller: mobileController,
               decoration: const InputDecoration(
@@ -76,6 +75,7 @@ class _NewContactPageState extends State<NewContactPage> {
                 }
               },
             ),
+            const SizedBox(height: 10,),
             TextFormField(
               controller: emailController,
               decoration: const InputDecoration(
@@ -83,6 +83,7 @@ class _NewContactPageState extends State<NewContactPage> {
                 prefixIcon: Icon(Icons.email),
               ),
             ),
+            const SizedBox(height: 10,),
             TextFormField(
               controller: addressController,
               decoration: const InputDecoration(
@@ -90,26 +91,57 @@ class _NewContactPageState extends State<NewContactPage> {
                 prefixIcon: Icon(Icons.location_city),
               ),
             ),
-            TextFormField(
-              controller: companyController,
-              decoration: const InputDecoration(
-                labelText: 'Company :',
-                prefixIcon: Icon(Icons.home_work),
+            const SizedBox(height: 10,),
+            Card(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                      onPressed: _selectDate,
+                      child: Text('Select Date of Birth')),
+
+                  Text(_dob==null?'No Date Chosen':_dob!),
+                ],
+              ),
+            ), //date of birth
+            Card(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Select Gender'),
+                  Radio<String>(
+                      value: 'Male',
+                      groupValue: _genderGroupValue,
+                      onChanged: (value){
+                        setState((){
+                          _genderGroupValue=value;
+                        });
+                      }),
+                  Text('Male'),
+                  Radio<String>(
+                      value: 'Female',
+                      groupValue: _genderGroupValue,
+                      onChanged: (value){
+                        setState((){
+                          _genderGroupValue=value;
+                        });
+                      }),
+                  Text('Female')
+                ],
               ),
             ),
-            TextFormField(
-              controller: designationController,
-              decoration: const InputDecoration(
-                labelText: 'Designation :',
-                prefixIcon: Icon(Icons.work),
-              ),
-            ),
-            TextFormField(
-                controller: websiteController,
-                decoration: const InputDecoration(
-                  labelText: 'Website :',
-                  prefixIcon: Icon(Icons.web),
-                )),
+            // Card(
+            //   elevation: 5,
+            //   child: _imagePath==null?Image.asset(
+            //     'images/pc.jpg',height: 100,width: 100,fit: BoxFit.contain,):
+            //   Image.file(
+            //     File(_imagePath!),
+            //     height: 100,width: 100,fit: BoxFit.contain,
+            //   )
+            //   ,
+            // ),
+
+
           ],
         ),
       ),
@@ -122,11 +154,13 @@ class _NewContactPageState extends State<NewContactPage> {
           name: nameController.text,
           number: mobileController.text,
           email: emailController.text,
-          address: addressController.text,
-          company: companyController.text,
-          designation: designationController.text,
-          website: websiteController.text);
+          address: addressController.text,);
+
       print(contact.toString());
     }
+  }
+
+  void _selectDate() {
+
   }
 }
