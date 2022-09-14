@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:contactapp/model/contact_model.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class NewContactPage extends StatefulWidget {
   const NewContactPage({Key? key}) : super(key: key);
@@ -17,7 +20,9 @@ class _NewContactPageState extends State<NewContactPage> {
   String? _dob;
   String? _genderGroupValue;
   String? _imagePath;
-  // ImageSource _imageSource=ImageSource.camera;
+
+  ImageSource _imageSource = ImageSource.camera;
+
   final form_key = GlobalKey<FormState>();
 
   @override
@@ -59,7 +64,9 @@ class _NewContactPageState extends State<NewContactPage> {
                 }
               },
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               controller: mobileController,
               decoration: const InputDecoration(
@@ -75,7 +82,9 @@ class _NewContactPageState extends State<NewContactPage> {
                 }
               },
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               controller: emailController,
               decoration: const InputDecoration(
@@ -83,7 +92,9 @@ class _NewContactPageState extends State<NewContactPage> {
                 prefixIcon: Icon(Icons.email),
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               controller: addressController,
               decoration: const InputDecoration(
@@ -91,7 +102,9 @@ class _NewContactPageState extends State<NewContactPage> {
                 prefixIcon: Icon(Icons.location_city),
               ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Card(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -99,8 +112,7 @@ class _NewContactPageState extends State<NewContactPage> {
                   TextButton(
                       onPressed: _selectDate,
                       child: Text('Select Date of Birth')),
-
-                  Text(_dob==null?'No Date Chosen':_dob!),
+                  Text(_dob == null ? 'No Date Chosen' : _dob!),
                 ],
               ),
             ), //date of birth
@@ -112,36 +124,63 @@ class _NewContactPageState extends State<NewContactPage> {
                   Radio<String>(
                       value: 'Male',
                       groupValue: _genderGroupValue,
-                      onChanged: (value){
-                        setState((){
-                          _genderGroupValue=value;
+                      onChanged: (value) {
+                        setState(() {
+                          _genderGroupValue = value;
                         });
                       }),
                   Text('Male'),
                   Radio<String>(
                       value: 'Female',
                       groupValue: _genderGroupValue,
-                      onChanged: (value){
-                        setState((){
-                          _genderGroupValue=value;
+                      onChanged: (value) {
+                        setState(() {
+                          _genderGroupValue = value;
                         });
                       }),
-                  Text('Female')
+                  Text('Female'),
                 ],
               ),
             ),
-            // Card(
-            //   elevation: 5,
-            //   child: _imagePath==null?Image.asset(
-            //     'images/pc.jpg',height: 100,width: 100,fit: BoxFit.contain,):
-            //   Image.file(
-            //     File(_imagePath!),
-            //     height: 100,width: 100,fit: BoxFit.contain,
-            //   )
-            //   ,
-            // ),
-
-
+            Card(
+              elevation: 5,
+              child: _imagePath == null
+                  ? Image.asset(
+                      'images/images.jpg',
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.contain,
+                    )
+                  : Image.file(
+                      File(_imagePath!),
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.contain,
+                    ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      _imageSource = ImageSource.camera;
+                      _getImage();
+                    },
+                    child: const Text('Camera')),
+                SizedBox(
+                  width: 10,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      _imageSource = ImageSource.gallery;
+                      _getImage();
+                    },
+                    child: const Text('Gallery')),
+              ],
+            )
           ],
         ),
       ),
@@ -151,16 +190,23 @@ class _NewContactPageState extends State<NewContactPage> {
   void _saveContact() {
     if (form_key.currentState!.validate()) {
       final contact = ContactModel(
-          name: nameController.text,
-          number: mobileController.text,
-          email: emailController.text,
-          address: addressController.text,);
+        name: nameController.text,
+        number: mobileController.text,
+        email: emailController.text,
+        address: addressController.text,
+      );
 
       print(contact.toString());
     }
   }
 
   void _selectDate() {
-
+    if(_selectDate!=null){
+      setState((){
+        _dob = DateFormat();
+      });
+    }
   }
+
+  void _getImage() {}
 }
