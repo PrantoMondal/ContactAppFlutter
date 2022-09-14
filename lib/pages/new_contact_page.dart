@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:contactapp/model/contact_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class NewContactPage extends StatefulWidget {
   const NewContactPage({Key? key}) : super(key: key);
@@ -200,13 +201,20 @@ class _NewContactPageState extends State<NewContactPage> {
     }
   }
 
-  void _selectDate() {
-    if(_selectDate!=null){
+  void _selectDate() async {
+    final selectedDate = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1950),
+        lastDate: DateTime.now());
+    if(selectedDate!=null){
       setState((){
-        _dob = DateFormat();
+        _dob=DateFormat('dd/MM/yyyy').format(selectedDate);
       });
     }
   }
 
-  void _getImage() {}
+  void _getImage() {
+
+  }
 }
