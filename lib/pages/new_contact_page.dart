@@ -188,16 +188,20 @@ class _NewContactPageState extends State<NewContactPage> {
     );
   }
 
-  void _saveContact() {
-    if (form_key.currentState!.validate()) {
-      final contact = ContactModel(
-        name: nameController.text,
-        number: mobileController.text,
-        email: emailController.text,
-        address: addressController.text,
-      );
+  void _saveContact() async {
 
+    if(form_key.currentState!.validate()){
+      final contact=ContactModel(
+          name: nameController.text,
+          number: mobileController.text,
+          email: emailController.text,
+          address: addressController.text,
+          dob: _dob,
+          gender: _genderGroupValue,
+          image: _imagePath
+      );
       print(contact.toString());
+
     }
   }
 
@@ -207,14 +211,19 @@ class _NewContactPageState extends State<NewContactPage> {
         initialDate: DateTime.now(),
         firstDate: DateTime(1950),
         lastDate: DateTime.now());
-    if(selectedDate!=null){
-      setState((){
-        _dob=DateFormat('dd/MM/yyyy').format(selectedDate);
+    if (selectedDate != null) {
+      setState(() {
+        _dob = DateFormat('dd/MM/yyyy').format(selectedDate);
       });
     }
   }
 
-  void _getImage() {
-
+  void _getImage() async {
+    final selectedImage = await ImagePicker().pickImage(source: _imageSource);
+    if(selectedImage != null){
+      setState((){
+        _imagePath = selectedImage.path;
+      });
+    }
   }
 }
