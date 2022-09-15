@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:contactapp/db/db_helper.dart';
 import 'package:contactapp/model/contact_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -201,6 +202,11 @@ class _NewContactPageState extends State<NewContactPage> {
           image: _imagePath
       );
       print(contact.toString());
+
+      final rowId = await DBHelper.insertContact(contact);
+      if(rowId > 0){
+        Navigator.pop(context);
+      }
 
     }
   }
