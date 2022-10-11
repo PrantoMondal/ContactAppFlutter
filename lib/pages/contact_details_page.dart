@@ -11,6 +11,8 @@ class ContactDetailsPage extends StatefulWidget {
 class _ContactDetailsPageState extends State<ContactDetailsPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(title: Text('Contact Details'),),
+    );
   }
 }

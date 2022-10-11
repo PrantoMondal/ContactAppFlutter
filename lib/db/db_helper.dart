@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DBHelper {
-  static const String createTableVContact = '''create table $tableContact(
+  static const String createTableContact = '''create table $tableContact(
   $tableContactColId integer primary key,
   $tableContactColName text,
   $tableContactColNumber text,
@@ -12,14 +12,14 @@ class DBHelper {
   $tableContactColDob text,
   $tableContactColGender text,
   $tableContactColImage text,
-  $tableContactColFavourite int,
+  $tableContactColFavourite integer
   )''';
 
   static Future<Database> open() async {
     final rootPath = await getDatabasesPath();
     final dbPath = join(rootPath, 'contact.db');
     return openDatabase(dbPath, version: 1, onCreate: (db, version) {
-      db.execute(createTableVContact);
+      db.execute(createTableContact);
     });
   }
 

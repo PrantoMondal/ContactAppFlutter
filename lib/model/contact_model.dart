@@ -1,15 +1,16 @@
-const String tableContact = 'tbl_contact';
-const String tableContactColId = 'id';
-const String tableContactColName = 'name';
-const String tableContactColNumber = 'number';
-const String tableContactColEmail = 'email';
-const String tableContactColAddress = 'address';
-const String tableContactColDob = 'dob';
-const String tableContactColGender = 'gender';
-const String tableContactColImage = 'image';
-const String tableContactColFavourite = 'favourite';
+const String tableContact='contact_tbl';
+const String tableContactColId='id';
+const String tableContactColName='name';
+const String tableContactColNumber='number';
+const String tableContactColEmail='email';
+const String tableContactColAddress='address';
+const String tableContactColDob='dob';
+const String tableContactColGender='gender';
+const String tableContactColImage='image';
+const String tableContactColFavourite='favorite';
 
-class ContactModel {
+
+class ContactModel{
   int? id;
   String name;
   String number;
@@ -22,18 +23,19 @@ class ContactModel {
 
   ContactModel(
       {this.id,
-      required this.name,
-      required this.number,
-      this.email,
-      this.address,
-      this.dob,
-      this.gender,
-      this.image,
-      this.favourite = false});
+        required this.name,
+        required this.number,
+        this.email,
+        this.address,
+        this.dob,
+        this.gender,
+        this.image,
+        this.favourite=false});
+
 
   Map<String,dynamic> toMap(){
 
-    var map = <String,dynamic>{
+    var map=<String,dynamic>{
       tableContactColName:name,
       tableContactColNumber:number,
       tableContactColEmail:email,
@@ -41,18 +43,17 @@ class ContactModel {
       tableContactColDob:dob,
       tableContactColGender:gender,
       tableContactColImage:image,
-      tableContactColFavourite:favourite?1:0,
+      tableContactColFavourite:favourite ? 1 : 0
     };
-    if(id != null){
-      map[tableContactColId] = id;
+
+    if(id!=null){
+      map[tableContactColId]=id;
     }
 
-
     return map;
-
   }
 
-  factory ContactModel.fromMap(Map<String,dynamic> map) => ContactModel(
+  factory ContactModel.fromMap(Map<String, dynamic> map)=>ContactModel(
     id: map[tableContactColId],
     name: map[tableContactColName],
     number: map[tableContactColNumber],
@@ -61,51 +62,15 @@ class ContactModel {
     dob: map[tableContactColDob],
     gender: map[tableContactColGender],
     image: map[tableContactColImage],
-    favourite: map[tableContactColFavourite]==1 ?true:false,
+    favourite: map[tableContactColFavourite]==1?true:false,
 
 
   );
 
-
   @override
   String toString() {
     return 'ContactModel{id: $id,'
         ' name: $name,'
-        ' number: $number,'
-        ' email: $email,'
-        ' address: $address,'
-        ' dob: $dob,'
-        ' gender: $gender,'
-        ' image: $image,'
-        ' isFavourite: $favourite}';
+        ' number: $number, email: $email, address: $address, dob: $dob, gender: $gender, image: $image, isFavorite: $favourite}';
   }
-/*  String? company;
-  String? designation;
-  String? website;*/
-/*  ContactModel({
-    this.id,
-    required this.name,
-    required this.number,
-    this.email,
-    this.address,
-    // this.company,
-    // this.designation,
-    // this.website,
-    this.isFavourite = false,
-  });
-
-  @override
-  String toString() {
-    return 'ContactModel{id: $id,'
-        ' name: $name,'
-        ' number: $number,'
-        ' email: $email,'
-        ' address: $address,'
-        ' company: $company,'
-        ' designation: $designation,'
-        ' website: $website, '
-        'isFavourite: $isFavourite'
-        '}';
-  }*/
-
 }

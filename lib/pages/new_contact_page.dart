@@ -14,25 +14,26 @@ class NewContactPage extends StatefulWidget {
   State<NewContactPage> createState() => _NewContactPageState();
 }
 
+
 class _NewContactPageState extends State<NewContactPage> {
-  final nameController = TextEditingController();
-  final mobileController = TextEditingController();
-  final emailController = TextEditingController();
-  final addressController = TextEditingController();
+
+  final nameControler=TextEditingController();
+  final numberControler=TextEditingController();
+  final emailControler=TextEditingController();
+  final addressControler=TextEditingController();
   String? _dob;
   String? _genderGroupValue;
   String? _imagePath;
+  ImageSource _imageSource=ImageSource.camera;
 
-  ImageSource _imageSource = ImageSource.camera;
-
-  final form_key = GlobalKey<FormState>();
+  final from_key=GlobalKey<FormState>();
 
   @override
   void dispose() {
-    nameController.dispose();
-    mobileController.dispose();
-    emailController.dispose();
-    addressController.dispose();
+    nameControler.dispose();
+    numberControler.dispose();
+    emailControler.dispose();
+    addressControler.dispose();
 
     super.dispose();
   }
@@ -40,73 +41,82 @@ class _NewContactPageState extends State<NewContactPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add New Contact'),
+      appBar: AppBar(title: Text('New Contact'),
+
         actions: [
-          IconButton(onPressed: _saveContact, icon: const Icon(Icons.save))
+          IconButton(onPressed: _saveContact, icon: Icon(Icons.save))
         ],
       ),
       body: Form(
-        key: form_key,
+        key: from_key,
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           children: [
             TextFormField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                labelText: 'Name :',
+              controller: nameControler,
+              decoration: InputDecoration(
+                labelText: 'Name',
                 prefixIcon: Icon(Icons.person),
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
+              validator: (value){
+                if(value==null||value.isEmpty){
                   return 'This field must not be empty';
                 }
-                if (value.length > 20) {
-                  return 'Name must be in 20 character';
+                if(value.length>20){
+                  return 'Name must be in 20 carecter';
+                }
+                else {
+                  return null;
                 }
               },
+
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10,),
             TextFormField(
-              controller: mobileController,
-              decoration: const InputDecoration(
-                labelText: 'Mobile :',
+              keyboardType: TextInputType.number,
+              controller: numberControler,
+              decoration: InputDecoration(
+                labelText: 'Number',
                 prefixIcon: Icon(Icons.call),
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
+              validator: (value){
+                if(value==null||value.isEmpty){
                   return 'This field must not be empty';
                 }
-                if (value.length > 20) {
-                  return 'Number must be in 11 character';
+                if(value.length>20){
+                  return 'Name must be in 20 carecter';
+                }
+                else {
+                  return null;
                 }
               },
+
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10,),
             TextFormField(
-              controller: emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email :',
+              controller: emailControler,
+              decoration: InputDecoration(
+                labelText: 'Email',
                 prefixIcon: Icon(Icons.email),
               ),
+              validator: (value){
+
+              },
+
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10,),
             TextFormField(
-              controller: addressController,
-              decoration: const InputDecoration(
-                labelText: 'Address :',
+              controller: addressControler,
+              decoration: InputDecoration(
+                labelText: 'Address',
                 prefixIcon: Icon(Icons.location_city),
               ),
+              validator: (value){
+
+              },
+
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10,),
+
             Card(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -114,7 +124,8 @@ class _NewContactPageState extends State<NewContactPage> {
                   TextButton(
                       onPressed: _selectDate,
                       child: Text('Select Date of Birth')),
-                  Text(_dob == null ? 'No Date Chosen' : _dob!),
+
+                  Text(_dob==null?'No Date Chosen':_dob!),
                 ],
               ),
             ), //date of birth
@@ -126,63 +137,56 @@ class _NewContactPageState extends State<NewContactPage> {
                   Radio<String>(
                       value: 'Male',
                       groupValue: _genderGroupValue,
-                      onChanged: (value) {
-                        setState(() {
-                          _genderGroupValue = value;
+                      onChanged: (value){
+                        setState((){
+                          _genderGroupValue=value;
                         });
                       }),
                   Text('Male'),
                   Radio<String>(
                       value: 'Female',
                       groupValue: _genderGroupValue,
-                      onChanged: (value) {
-                        setState(() {
-                          _genderGroupValue = value;
+                      onChanged: (value){
+                        setState((){
+                          _genderGroupValue=value;
                         });
                       }),
-                  Text('Female'),
+                  Text('Female')
                 ],
               ),
             ),
             Card(
               elevation: 5,
-              child: _imagePath == null
-                  ? Image.asset(
-                      'images/images.jpg',
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.contain,
-                    )
-                  : Image.file(
-                      File(_imagePath!),
-                      height: 100,
-                      width: 100,
-                      fit: BoxFit.contain,
-                    ),
+              child: _imagePath==null?Image.asset(
+                'images/pc.jpg',height: 100,width: 100,fit: BoxFit.contain,):
+              Image.file(
+                File(_imagePath!),
+                height: 100,width: 100,fit: BoxFit.contain,
+              )
+              ,
             ),
-            SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 20,),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                    onPressed: () {
-                      _imageSource = ImageSource.camera;
+                    onPressed: (){
+                      _imageSource=ImageSource.camera;
                       _getImage();
                     },
-                    child: const Text('Camera')),
-                SizedBox(
-                  width: 10,
-                ),
+                    child: Text('Camera')),
+                SizedBox(width: 20,),
                 ElevatedButton(
-                    onPressed: () {
-                      _imageSource = ImageSource.gallery;
+                    onPressed: (){
+                      _imageSource=ImageSource.gallery;
                       _getImage();
                     },
-                    child: const Text('Gallery')),
+                    child: Text('Gallary')),
+
               ],
             )
+
+
           ],
         ),
       ),
@@ -191,24 +195,26 @@ class _NewContactPageState extends State<NewContactPage> {
 
   void _saveContact() async {
 
-    if(form_key.currentState!.validate()){
+    if(from_key.currentState!.validate()){
       final contact=ContactModel(
-          name: nameController.text,
-          number: mobileController.text,
-          email: emailController.text,
-          address: addressController.text,
+          name: nameControler.text,
+          number: numberControler.text,
+          email: emailControler.text,
+          address: addressControler.text,
           dob: _dob,
           gender: _genderGroupValue,
           image: _imagePath
       );
       print(contact.toString());
-
       final rowId = await DBHelper.insertContact(contact);
-      if(rowId > 0){
-        Navigator.pop(context);
-      }
 
+      if(rowId>0){
+        contact.id =rowId;
+        Navigator.pop(context,contact);
+      }
     }
+
+
   }
 
   void _selectDate() async {
@@ -217,19 +223,25 @@ class _NewContactPageState extends State<NewContactPage> {
         initialDate: DateTime.now(),
         firstDate: DateTime(1950),
         lastDate: DateTime.now());
-    if (selectedDate != null) {
-      setState(() {
-        _dob = DateFormat('dd/MM/yyyy').format(selectedDate);
+    if(selectedDate!=null){
+      setState((){
+        _dob=DateFormat('dd/MM/yyyy').format(selectedDate);
       });
     }
   }
 
   void _getImage() async {
-    final selectedImage = await ImagePicker().pickImage(source: _imageSource);
-    if(selectedImage != null){
+
+    final selecteImage=await ImagePicker().pickImage(
+        source: _imageSource);
+    if(selecteImage!=null){
       setState((){
-        _imagePath = selectedImage.path;
+        _imagePath=selecteImage.path;
       });
     }
+
   }
+
+
 }
+
