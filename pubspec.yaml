@@ -50,6 +50,7 @@ dev_dependencies:
   intl:
   image_picker: ^0.8.5+3
   path:
+  provider:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
