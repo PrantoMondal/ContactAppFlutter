@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:contactapp/db/db_helper.dart';
 import 'package:contactapp/model/contact_model.dart';
+import 'package:contactapp/provider/contact_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class NewContactPage extends StatefulWidget {
   const NewContactPage({Key? key}) : super(key: key);
@@ -14,19 +16,17 @@ class NewContactPage extends StatefulWidget {
   State<NewContactPage> createState() => _NewContactPageState();
 }
 
-
 class _NewContactPageState extends State<NewContactPage> {
-
-  final nameControler=TextEditingController();
-  final numberControler=TextEditingController();
-  final emailControler=TextEditingController();
-  final addressControler=TextEditingController();
+  final nameControler = TextEditingController();
+  final numberControler = TextEditingController();
+  final emailControler = TextEditingController();
+  final addressControler = TextEditingController();
   String? _dob;
   String? _genderGroupValue;
   String? _imagePath;
-  ImageSource _imageSource=ImageSource.camera;
+  ImageSource _imageSource = ImageSource.camera;
 
-  final from_key=GlobalKey<FormState>();
+  final from_key = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -41,11 +41,9 @@ class _NewContactPageState extends State<NewContactPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('New Contact'),
-
-        actions: [
-          IconButton(onPressed: _saveContact, icon: Icon(Icons.save))
-        ],
+      appBar: AppBar(
+        title: Text('New Contact'),
+        actions: [IconButton(onPressed: _saveContact, icon: Icon(Icons.save))],
       ),
       body: Form(
         key: from_key,
@@ -57,20 +55,20 @@ class _NewContactPageState extends State<NewContactPage> {
                 labelText: 'Name',
                 prefixIcon: Icon(Icons.person),
               ),
-              validator: (value){
-                if(value==null||value.isEmpty){
+              validator: (value) {
+                if (value == null || value.isEmpty) {
                   return 'This field must not be empty';
                 }
-                if(value.length>20){
+                if (value.length > 20) {
                   return 'Name must be in 20 carecter';
-                }
-                else {
+                } else {
                   return null;
                 }
               },
-
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             TextFormField(
               keyboardType: TextInputType.number,
               controller: numberControler,
@@ -78,44 +76,42 @@ class _NewContactPageState extends State<NewContactPage> {
                 labelText: 'Number',
                 prefixIcon: Icon(Icons.call),
               ),
-              validator: (value){
-                if(value==null||value.isEmpty){
+              validator: (value) {
+                if (value == null || value.isEmpty) {
                   return 'This field must not be empty';
                 }
-                if(value.length>20){
+                if (value.length > 20) {
                   return 'Name must be in 20 carecter';
-                }
-                else {
+                } else {
                   return null;
                 }
               },
-
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             TextFormField(
               controller: emailControler,
               decoration: InputDecoration(
                 labelText: 'Email',
                 prefixIcon: Icon(Icons.email),
               ),
-              validator: (value){
-
-              },
-
+              validator: (value) {},
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             TextFormField(
               controller: addressControler,
               decoration: InputDecoration(
                 labelText: 'Address',
                 prefixIcon: Icon(Icons.location_city),
               ),
-              validator: (value){
-
-              },
-
+              validator: (value) {},
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
 
             Card(
               child: Row(
@@ -124,8 +120,7 @@ class _NewContactPageState extends State<NewContactPage> {
                   TextButton(
                       onPressed: _selectDate,
                       child: Text('Select Date of Birth')),
-
-                  Text(_dob==null?'No Date Chosen':_dob!),
+                  Text(_dob == null ? 'No Date Chosen' : _dob!),
                 ],
               ),
             ), //date of birth
@@ -137,18 +132,18 @@ class _NewContactPageState extends State<NewContactPage> {
                   Radio<String>(
                       value: 'Male',
                       groupValue: _genderGroupValue,
-                      onChanged: (value){
-                        setState((){
-                          _genderGroupValue=value;
+                      onChanged: (value) {
+                        setState(() {
+                          _genderGroupValue = value;
                         });
                       }),
                   Text('Male'),
                   Radio<String>(
                       value: 'Female',
                       groupValue: _genderGroupValue,
-                      onChanged: (value){
-                        setState((){
-                          _genderGroupValue=value;
+                      onChanged: (value) {
+                        setState(() {
+                          _genderGroupValue = value;
                         });
                       }),
                   Text('Female')
@@ -157,36 +152,43 @@ class _NewContactPageState extends State<NewContactPage> {
             ),
             Card(
               elevation: 5,
-              child: _imagePath==null?Image.asset(
-                'images/pc.jpg',height: 100,width: 100,fit: BoxFit.contain,):
-              Image.file(
-                File(_imagePath!),
-                height: 100,width: 100,fit: BoxFit.contain,
-              )
-              ,
+              child: _imagePath == null
+                  ? Image.asset(
+                      'images/images.jpg',
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.contain,
+                    )
+                  : Image.file(
+                      File(_imagePath!),
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.contain,
+                    ),
             ),
-            SizedBox(height: 20,),
+            SizedBox(
+              height: 20,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                    onPressed: (){
-                      _imageSource=ImageSource.camera;
+                    onPressed: () {
+                      _imageSource = ImageSource.camera;
                       _getImage();
                     },
                     child: Text('Camera')),
-                SizedBox(width: 20,),
+                SizedBox(
+                  width: 20,
+                ),
                 ElevatedButton(
-                    onPressed: (){
-                      _imageSource=ImageSource.gallery;
+                    onPressed: () {
+                      _imageSource = ImageSource.gallery;
                       _getImage();
                     },
                     child: Text('Gallary')),
-
               ],
             )
-
-
           ],
         ),
       ),
@@ -194,27 +196,22 @@ class _NewContactPageState extends State<NewContactPage> {
   }
 
   void _saveContact() async {
-
-    if(from_key.currentState!.validate()){
-      final contact=ContactModel(
+    if (from_key.currentState!.validate()) {
+      final contact = ContactModel(
           name: nameControler.text,
           number: numberControler.text,
           email: emailControler.text,
           address: addressControler.text,
           dob: _dob,
           gender: _genderGroupValue,
-          image: _imagePath
-      );
+          image: _imagePath);
       print(contact.toString());
-      final rowId = await DBHelper.insertContact(contact);
-
-      if(rowId>0){
-        contact.id =rowId;
-        Navigator.pop(context,contact);
+      final status = await Provider.of<ContactProvider>(context, listen: false)
+          .addNewContact(contact);
+      if (status) {
+        Navigator.pop(context, contact);
       }
     }
-
-
   }
 
   void _selectDate() async {
@@ -223,25 +220,19 @@ class _NewContactPageState extends State<NewContactPage> {
         initialDate: DateTime.now(),
         firstDate: DateTime(1950),
         lastDate: DateTime.now());
-    if(selectedDate!=null){
-      setState((){
-        _dob=DateFormat('dd/MM/yyyy').format(selectedDate);
+    if (selectedDate != null) {
+      setState(() {
+        _dob = DateFormat('dd/MM/yyyy').format(selectedDate);
       });
     }
   }
 
   void _getImage() async {
-
-    final selecteImage=await ImagePicker().pickImage(
-        source: _imageSource);
-    if(selecteImage!=null){
-      setState((){
-        _imagePath=selecteImage.path;
+    final selecteImage = await ImagePicker().pickImage(source: _imageSource);
+    if (selecteImage != null) {
+      setState(() {
+        _imagePath = selecteImage.path;
       });
     }
-
   }
-
-
 }
-

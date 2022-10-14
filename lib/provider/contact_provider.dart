@@ -12,4 +12,15 @@ class ContactProvider extends ChangeNotifier{
       notifyListeners();
     });
   }
+
+  Future<bool>addNewContact(ContactModel contactModel) async {
+    final rowId = await DBHelper.insertContact(contactModel);
+      if(rowId > 0){
+        contactModel.id = rowId;
+        contactList.add(contactModel);
+        notifyListeners();
+        return true;
+    }
+      return false;
+  }
 }
