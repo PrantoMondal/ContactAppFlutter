@@ -1,3 +1,6 @@
+
+import 'dart:io';
+
 import 'package:contactapp/model/contact_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +20,6 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
   int? id;
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     id = ModalRoute.of(context)!.settings.arguments as int;
     super.didChangeDependencies();
   }
@@ -27,20 +29,25 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
       appBar: AppBar(title: Text('Contact Details'),),
       body: Center(
         child: Consumer<ContactProvider>(
-          builder:(context, provider, _) => FutureBuilder<ContactModel>(
-            future: provider.getContactsById(id!),
-            builder: (context,snapshot){
-              if(snapshot.hasData){
+          builder: (context, provider, _) => FutureBuilder<ContactModel>(
+            future: provider.getContactById(id!),
+            builder: (context, snapshot) {
+              if(snapshot.hasData) {
+                final contact = snapshot.data;
                 return ListView(
                   children: [
-
+                    Image.file(File(contact!.image!), width: double.infinity, height: 300, fit: BoxFit.cover,),
+                    ListTile(
+                      title: Text(contact.name),
+                      subtitle: Text(contact.number),
+                    ),
                   ],
                 );
               }
-              if(snapshot.hasError){
+              if(snapshot.hasError) {
                 return const Text('Failed to fetch data');
               }
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             },
           ),
         ),

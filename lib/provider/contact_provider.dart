@@ -13,7 +13,7 @@ class ContactProvider extends ChangeNotifier{
     });
   }
 
-  Future<ContactModel> getContactsById(int id)=> DBHelper.getContactById(id);
+  Future<ContactModel> getContactById(int id) => DBHelper.getContactById(id);
 
 
 

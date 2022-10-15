@@ -33,7 +33,7 @@ class DBHelper {
     final List<Map<String, dynamic>> mapList = await db.query(tableContact);
     return List.generate(mapList.length, (index) => ContactModel.fromMap(mapList[index]));
   }
-  static Future<ContactModel> getContactById(int id) async{
+  static Future<ContactModel> getContactById(int id) async {
     final db = await open();
     final mapList = await db.query(tableContact, where: '$tableContactColId = ?', whereArgs: [id]);
     return ContactModel.fromMap(mapList.first);
