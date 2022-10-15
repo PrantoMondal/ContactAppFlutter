@@ -1,3 +1,4 @@
+import 'package:contactapp/pages/contact_details_page.dart';
 import 'package:contactapp/pages/new_contact_page.dart';
 import 'package:contactapp/provider/contact_provider.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class _ContactListPageState extends State<ContactListPage> {
             itemBuilder: (context, index) {
               final contact = provider.contactList[index];
               return ListTile(
+                onTap: ()=>Navigator.pushNamed(context, ContactDetailsPage.routeName, arguments: contact.id),
                 title: Text(contact.name),
                 subtitle: Text(contact.number),
                 trailing: IconButton(

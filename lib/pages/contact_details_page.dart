@@ -9,6 +9,13 @@ class ContactDetailsPage extends StatefulWidget {
 }
 
 class _ContactDetailsPageState extends State<ContactDetailsPage> {
+  int? id;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    id = ModalRoute.of(context)!.settings.arguments as int;
+    super.didChangeDependencies();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

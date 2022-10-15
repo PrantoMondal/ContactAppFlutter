@@ -13,6 +13,10 @@ class ContactProvider extends ChangeNotifier{
     });
   }
 
+  Future<ContactModel> getContactsById(int id)=> DBHelper.getContactById(id);
+
+
+
   Future<bool>addNewContact(ContactModel contactModel) async {
     final rowId = await DBHelper.insertContact(contactModel);
       if(rowId > 0){
