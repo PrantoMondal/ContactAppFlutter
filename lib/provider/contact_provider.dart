@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../model/contact_model.dart';
 
-class ContactProvider extends ChangeNotifier{
+class ContactProvider extends ChangeNotifier {
   List<ContactModel> contactList = [];
 
-  getAllContacts(){
+  getAllContacts() {
     DBHelper.getAllContacts().then((value) {
       contactList = value;
       notifyListeners();
@@ -15,16 +15,21 @@ class ContactProvider extends ChangeNotifier{
 
   Future<ContactModel> getContactById(int id) => DBHelper.getContactById(id);
 
-
-
-  Future<bool>addNewContact(ContactModel contactModel) async {
+  Future<bool> addNewContact(ContactModel contactModel) async {
     final rowId = await DBHelper.insertContact(contactModel);
-      if(rowId > 0){
-        contactModel.id = rowId;
-        contactList.add(contactModel);
-        notifyListeners();
-        return true;
+    if (rowId > 0) {
+      contactModel.id = rowId;
+      contactList.add(contactModel);
+      notifyListeners();
+      return true;
     }
-      return false;
+    return false;
+  }
+
+  updateFavorite(int id, int value){
+    DBHelper.updateFavorite(id, value).then((value) {
+
+
+    });
   }
 }

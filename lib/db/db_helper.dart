@@ -31,12 +31,18 @@ class DBHelper {
   static Future<List<ContactModel>> getAllContacts() async {
     final db = await open();
     final List<Map<String, dynamic>> mapList = await db.query(tableContact);
-    return List.generate(mapList.length, (index) => ContactModel.fromMap(mapList[index]));
+    return List.generate(mapList.length, (index) =>
+        ContactModel.fromMap(mapList[index]));
   }
+
   static Future<ContactModel> getContactById(int id) async {
     final db = await open();
     final mapList = await db.query(tableContact, where: '$tableContactColId = ?', whereArgs: [id]);
     return ContactModel.fromMap(mapList.first);
+  }
+  static Future<int>updateFavorite(int id, int value) async{
+    final db = await open();
+    return db.update(tableContact, {tableContactColFavourite: value},where: '$tableContactColId = ?', whereArgs: [id]);
   }
 
 }
