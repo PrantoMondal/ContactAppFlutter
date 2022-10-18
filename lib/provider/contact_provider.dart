@@ -26,10 +26,17 @@ class ContactProvider extends ChangeNotifier {
     return false;
   }
 
-  updateFavorite(int id, int value,int index){
+  updateFavorite(int id, int value, int index) {
     DBHelper.updateFavorite(id, value).then((_) {
       contactList[index].favourite = !contactList[index].favourite;
       notifyListeners();
     });
+  }
+  deleteContact(int id) async{
+    final rowId = await DBHelper.deleteContact(id);
+    if(rowId > 0){
+      contactList.removeWhere((element) => element.id == id);
+      notifyListeners();
+    }
   }
 }
