@@ -26,10 +26,10 @@ class ContactProvider extends ChangeNotifier {
     return false;
   }
 
-  updateFavorite(int id, int value){
-    DBHelper.updateFavorite(id, value).then((value) {
-
-
+  updateFavorite(int id, int value,int index){
+    DBHelper.updateFavorite(id, value).then((_) {
+      contactList[index].favourite = !contactList[index].favourite;
+      notifyListeners();
     });
   }
 }
