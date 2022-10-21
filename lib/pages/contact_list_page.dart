@@ -28,6 +28,9 @@ class _ContactListPageState extends State<ContactListPage> {
                 key: ValueKey(contact.id),
                 direction: DismissDirection.endToStart,
                 confirmDismiss: _showConfirmationDialog,
+                onDismissed: (direction){
+                  provider.deleteContact(contact.id!);
+                },
                 background: Container(
                   color: Colors.red,
                   alignment: Alignment.centerRight,
