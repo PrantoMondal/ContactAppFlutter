@@ -35,7 +35,14 @@ class DBHelper {
 
   static Future<List<ContactModel>> getAllContacts() async {
     final db = await open();
-    final List<Map<String, dynamic>> mapList = await db.query(tableContact);
+    final List<Map<String, dynamic>> mapList = await db.query(tableContact, orderBy: '$tableContactColName asc');
+    return List.generate(mapList.length, (index) =>
+        ContactModel.fromMap(mapList[index]));
+  }
+
+  static Future<List<ContactModel>> getAllFavoriteContacts() async {
+    final db = await open();
+    final List<Map<String, dynamic>> mapList = await db.query(tableContact, where: '$tableContactColFavourite = ?',whereArgs: [1],  orderBy: '$tableContactColName asc');
     return List.generate(mapList.length, (index) =>
         ContactModel.fromMap(mapList[index]));
   }

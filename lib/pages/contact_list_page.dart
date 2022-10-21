@@ -13,11 +13,38 @@ class ContactListPage extends StatefulWidget {
 }
 
 class _ContactListPageState extends State<ContactListPage> {
+  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Contact List'),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        notchMargin: 8,
+        shape: CircularNotchedRectangle(),
+        clipBehavior: Clip.antiAlias,
+        child: BottomNavigationBar(
+          currentIndex: selectedIndex,
+          backgroundColor: Theme.of(context).primaryColor,
+          selectedItemColor: Colors.white,
+          onTap: (value) {
+            setState(() {
+              selectedIndex = value;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'All'
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: 'Favorite'
+            ),
+          ],
+        ),
       ),
       body: Consumer<ContactProvider>(
         builder: (context, provider, _) => ListView.builder(
@@ -28,7 +55,7 @@ class _ContactListPageState extends State<ContactListPage> {
                 key: ValueKey(contact.id),
                 direction: DismissDirection.endToStart,
                 confirmDismiss: _showConfirmationDialog,
-                onDismissed: (direction){
+                onDismissed: (direction) {
                   provider.deleteContact(contact.id!);
                 },
                 background: Container(
@@ -58,6 +85,7 @@ class _ContactListPageState extends State<ContactListPage> {
               );
             }),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, NewContactPage.routeName);
