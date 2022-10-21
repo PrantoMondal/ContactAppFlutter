@@ -12,6 +12,23 @@ class ContactProvider extends ChangeNotifier {
       notifyListeners();
     });
   }
+  getAllFavoriteContacts() {
+    DBHelper.getAllFavoriteContacts().then((value) {
+      contactList = value;
+      notifyListeners();
+    });
+  }
+
+  void loadContent(int index) {
+    switch(index){
+      case 0:
+        getAllContacts();
+        break;
+      case 1:
+        getAllFavoriteContacts();
+        break;
+    }
+  }
 
   Future<ContactModel> getContactById(int id) => DBHelper.getContactById(id);
 

@@ -25,25 +25,28 @@ class _ContactListPageState extends State<ContactListPage> {
         notchMargin: 8,
         shape: CircularNotchedRectangle(),
         clipBehavior: Clip.antiAlias,
-        child: BottomNavigationBar(
-          currentIndex: selectedIndex,
-          backgroundColor: Theme.of(context).primaryColor,
-          selectedItemColor: Colors.white,
-          onTap: (value) {
-            setState(() {
-              selectedIndex = value;
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'All'
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: 'Favorite'
-            ),
-          ],
+        child: Consumer<ContactProvider>(
+          builder:(context, provider, _) =>  BottomNavigationBar(
+            currentIndex: selectedIndex,
+            backgroundColor: Theme.of(context).primaryColor,
+            selectedItemColor: Colors.white,
+            onTap: (value) {
+              setState(() {
+                selectedIndex = value;
+              });
+              provider.loadContent(selectedIndex);
+            },
+            items: const [
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: 'All'
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.favorite),
+                  label: 'Favorite'
+              ),
+            ],
+          ),
         ),
       ),
       body: Consumer<ContactProvider>(
@@ -113,4 +116,6 @@ class _ContactListPageState extends State<ContactListPage> {
               ],
             ));
   }
+
+
 }
