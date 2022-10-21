@@ -12,14 +12,19 @@ class DBHelper {
   $tableContactColDob text,
   $tableContactColGender text,
   $tableContactColImage text,
+  $tableContactColWebsite text,
   $tableContactColFavourite integer
   )''';
 
   static Future<Database> open() async {
     final rootPath = await getDatabasesPath();
     final dbPath = join(rootPath, 'contact.db');
-    return openDatabase(dbPath, version: 1, onCreate: (db, version) {
+    return openDatabase(dbPath, version: 2, onCreate: (db, version) {
       db.execute(createTableContact);
+    },onUpgrade: (db, oldVersion, newVersion){
+      if(newVersion == 2){
+        db.execute('alter table $tableContact add column $tableContactColWebsite text');
+      }
     });
   }
 

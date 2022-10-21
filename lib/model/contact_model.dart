@@ -8,6 +8,7 @@ const String tableContactColDob='dob';
 const String tableContactColGender='gender';
 const String tableContactColImage='image';
 const String tableContactColFavourite='favorite';
+const String tableContactColWebsite='favorite';
 
 
 class ContactModel{
@@ -19,6 +20,7 @@ class ContactModel{
   String? dob;
   String? gender;
   String? image;
+  String? website;
   bool favourite;
 
   ContactModel(
@@ -30,6 +32,7 @@ class ContactModel{
         this.dob,
         this.gender,
         this.image,
+        this.website,
         this.favourite=false});
 
 
@@ -43,6 +46,7 @@ class ContactModel{
       tableContactColDob:dob,
       tableContactColGender:gender,
       tableContactColImage:image,
+      tableContactColWebsite:website,
       tableContactColFavourite:favourite ? 1 : 0
     };
 
@@ -62,6 +66,7 @@ class ContactModel{
     dob: map[tableContactColDob],
     gender: map[tableContactColGender],
     image: map[tableContactColImage],
+    website: map[tableContactColWebsite],
     favourite: map[tableContactColFavourite] == 1 ? true : false,
 
 
