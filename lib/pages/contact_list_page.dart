@@ -31,9 +31,6 @@ class _ContactListPageState extends State<ContactListPage> {
             backgroundColor: Theme.of(context).primaryColor,
             selectedItemColor: Colors.white,
             onTap: (value) {
-              setState(() {
-                selectedIndex = value;
-              });
               provider.loadContent(selectedIndex);
             },
             items: const [
@@ -76,11 +73,11 @@ class _ContactListPageState extends State<ContactListPage> {
                   title: Text(contact.name),
                   subtitle: Text(contact.number),
                   trailing: IconButton(
-                    icon: Icon(contact.favourite
+                    icon: Icon(contact.favorite
                         ? Icons.favorite
                         : Icons.favorite_border),
                     onPressed: () {
-                      final value = contact.favourite ? 0 : 1;
+                      final value = contact.favorite ? 0 : 1;
                       provider.updateFavorite(contact.id!, value, index);
                     },
                   ),

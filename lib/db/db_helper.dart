@@ -2,8 +2,8 @@ import 'package:contactapp/model/contact_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class DBHelper {
-  static const String createTableContact = '''create table $tableContact(
+class DBHelper{
+  static const String createTableContact='''create table $tableContact(
   $tableContactColId integer primary key,
   $tableContactColName text,
   $tableContactColNumber text,
@@ -13,22 +13,21 @@ class DBHelper {
   $tableContactColGender text,
   $tableContactColImage text,
   $tableContactColWebsite text,
-  $tableContactColFavourite integer
-  )''';
+  $tableContactColFavorite integer)''';
 
-  static Future<Database> open() async {
-    final rootPath = await getDatabasesPath();
-    final dbPath = join(rootPath, 'contact.db');
-    return openDatabase(dbPath, version: 2, onCreate: (db, version) {
+  static Future<Database> open() async{
+    final rootPath =await getDatabasesPath();
+    final dbPath =join(rootPath,'contact.db');
+    return openDatabase(dbPath, version: 2, onCreate: (db,version){
       db.execute(createTableContact);
-    },onUpgrade: (db, oldVersion, newVersion){
-      if(newVersion == 2){
+    }, onUpgrade: (db, oldVersion, newVersion) {
+      if(newVersion == 2) {
         db.execute('alter table $tableContact add column $tableContactColWebsite text');
       }
     });
   }
 
-  static Future<int> insertContact(ContactModel contactModel) async {
+  static Future<int> insertContact(ContactModel contactModel) async{
     final db = await open();
     return db.insert(tableContact, contactModel.toMap());
   }
@@ -42,7 +41,12 @@ class DBHelper {
 
   static Future<List<ContactModel>> getAllFavoriteContacts() async {
     final db = await open();
-    final List<Map<String, dynamic>> mapList = await db.query(tableContact, where: '$tableContactColFavourite = ?',whereArgs: [1],  orderBy: '$tableContactColName asc');
+    final List<Map<String, dynamic>> mapList = await db.query(
+        tableContact,
+        where: '$tableContactColFavorite = ?',
+        whereArgs: [1] ,
+        orderBy: '$tableContactColName asc');
+
     return List.generate(mapList.length, (index) =>
         ContactModel.fromMap(mapList[index]));
   }
@@ -52,14 +56,17 @@ class DBHelper {
     final mapList = await db.query(tableContact, where: '$tableContactColId = ?', whereArgs: [id]);
     return ContactModel.fromMap(mapList.first);
   }
-  static Future<int>updateFavorite(int id, int value) async{
+
+  static Future<int> updateFavorite(int id, int value) async {
     final db = await open();
-    return db.update(tableContact, {tableContactColFavourite: value},where: '$tableContactColId = ?', whereArgs: [id]);
+    return db.update(
+        tableContact,
+        {tableContactColFavorite : value},
+        where: '$tableContactColId = ?', whereArgs: [id]);
   }
 
-  static Future<int> deleteContact(int id) async{
+  static Future<int> deleteContact(int id) async {
     final db = await open();
-    return db.delete(tableContact, where: '$tableContactColId = ?',whereArgs: [id]);
+    return db.delete(tableContact, where: '$tableContactColId = ?', whereArgs: [id]);
   }
-
 }

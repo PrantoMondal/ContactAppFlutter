@@ -1,17 +1,19 @@
-import 'package:contactapp/db/db_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
+import '../db/db_helper.dart';
 import '../model/contact_model.dart';
 
 class ContactProvider extends ChangeNotifier {
   List<ContactModel> contactList = [];
 
   getAllContacts() {
+    //contactList.sort((c1, c2) => c1.id!.compareTo(c2.id!));
     DBHelper.getAllContacts().then((value) {
       contactList = value;
       notifyListeners();
     });
   }
+
   getAllFavoriteContacts() {
     DBHelper.getAllFavoriteContacts().then((value) {
       contactList = value;
@@ -19,8 +21,8 @@ class ContactProvider extends ChangeNotifier {
     });
   }
 
-  void loadContent(int index) {
-    switch(index){
+  loadContent(int index) {
+    switch(index) {
       case 0:
         getAllContacts();
         break;
@@ -34,9 +36,10 @@ class ContactProvider extends ChangeNotifier {
 
   Future<bool> addNewContact(ContactModel contactModel) async {
     final rowId = await DBHelper.insertContact(contactModel);
-    if (rowId > 0) {
+    if(rowId > 0) {
       contactModel.id = rowId;
       contactList.add(contactModel);
+      contactList.sort((c1, c2) => c1.name.compareTo(c2.name));
       notifyListeners();
       return true;
     }
@@ -45,15 +48,17 @@ class ContactProvider extends ChangeNotifier {
 
   updateFavorite(int id, int value, int index) {
     DBHelper.updateFavorite(id, value).then((_) {
-      contactList[index].favourite = !contactList[index].favourite;
+      contactList[index].favorite = !contactList[index].favorite;
       notifyListeners();
     });
   }
-  deleteContact(int id) async{
+
+  deleteContact(int id) async {
     final rowId = await DBHelper.deleteContact(id);
-    if(rowId > 0){
+    if(rowId > 0) {
       contactList.removeWhere((element) => element.id == id);
       notifyListeners();
     }
   }
+
 }

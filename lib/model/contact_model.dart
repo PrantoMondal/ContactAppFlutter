@@ -1,4 +1,4 @@
-const String tableContact='contact_tbl';
+const String tableContact='tbl_contact';
 const String tableContactColId='id';
 const String tableContactColName='name';
 const String tableContactColNumber='number';
@@ -7,8 +7,8 @@ const String tableContactColAddress='address';
 const String tableContactColDob='dob';
 const String tableContactColGender='gender';
 const String tableContactColImage='image';
-const String tableContactColFavourite='favorite';
-const String tableContactColWebsite='favorite';
+const String tableContactColFavorite='favorite';
+const String tableContactColWebsite='website';
 
 
 class ContactModel{
@@ -21,7 +21,7 @@ class ContactModel{
   String? gender;
   String? image;
   String? website;
-  bool favourite;
+  bool favorite;
 
   ContactModel(
       {this.id,
@@ -32,12 +32,11 @@ class ContactModel{
         this.dob,
         this.gender,
         this.image,
-        this.website,
-        this.favourite=false});
+        this.favorite=false,
+        this.website});
 
 
   Map<String,dynamic> toMap(){
-
     var map=<String,dynamic>{
       tableContactColName:name,
       tableContactColNumber:number,
@@ -47,7 +46,7 @@ class ContactModel{
       tableContactColGender:gender,
       tableContactColImage:image,
       tableContactColWebsite:website,
-      tableContactColFavourite:favourite ? 1 : 0
+      tableContactColFavorite:favorite ? 1 : 0
     };
 
     if(id!=null){
@@ -57,7 +56,7 @@ class ContactModel{
     return map;
   }
 
-  factory ContactModel.fromMap(Map<String, dynamic> map) => ContactModel(
+  factory ContactModel.fromMap(Map<String, dynamic> map)=>ContactModel(
     id: map[tableContactColId],
     name: map[tableContactColName],
     number: map[tableContactColNumber],
@@ -67,15 +66,13 @@ class ContactModel{
     gender: map[tableContactColGender],
     image: map[tableContactColImage],
     website: map[tableContactColWebsite],
-    favourite: map[tableContactColFavourite] == 1 ? true : false,
+    favorite: map[tableContactColFavorite] == 1 ? true : false,
 
 
   );
 
   @override
   String toString() {
-    return 'ContactModel{id: $id,'
-        ' name: $name,'
-        ' number: $number, email: $email, address: $address, dob: $dob, gender: $gender, image: $image, isFavorite: $favourite}';
+    return 'ContactModel{id: $id, name: $name, number: $number, email: $email, address: $address, dob: $dob, gender: $gender, image: $image, isFavorite: $favorite}';
   }
 }
